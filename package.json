@@ -1,0 +1,101 @@
+{
+    "version": "0.0.0",
+    "name": "@termun/core",
+    "description": "",
+    "main": "./dist/main.mjs",
+    "types": "./dist/main.d.mts",
+    "exports": {
+        ".": {
+            "types": "./dist/main.d.mts",
+            "import": "./dist/main.mjs"
+        }
+    },
+    "keywords": [
+        "nodejs",
+        "cli",
+        "modular",
+        "command-line",
+        "menu",
+        "inquirer ",
+        "terminal"
+    ],
+    "author": "Termun Team",
+    "license": "MIT",
+    "homepage": "https://github.com/termun/core-ts/blob/main/README.md",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/termun/core-ts.git"
+    },
+    "engines": {
+        "node": ">=22.22.2"
+    },
+    "dependencies": {
+        "@inquirer/checkbox": "^5.1.5",
+        "@inquirer/core": "^11.1.10",
+        "@inquirer/input": "^5.0.13",
+        "@inquirer/select": "^5.1.5",
+        "@types/inquirer": "^9.0.9",
+        "chalk": "^5.6.2",
+        "dotenv": "^17.4.2",
+        "inquirer": "^14.0.0"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^21.0.1",
+        "@commitlint/config-conventional": "^21.0.1",
+        "@eslint/js": "^10.0.1",
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/commit-analyzer": "^13.0.1",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/github": "^12.0.8",
+        "@semantic-release/npm": "^13.1.5",
+        "@semantic-release/release-notes-generator": "^14.1.1",
+        "@stylistic/eslint-plugin": "^5.10.0",
+        "@types/node": "^25.9.1",
+        "czg": "^1.13.1",
+        "eslint": "^10.4.0",
+        "eslint-plugin-jsonc": "^3.1.2",
+        "husky": "^9.1.7",
+        "lint-staged": "^17.0.5",
+        "semantic-release": "^25.0.3",
+        "serve": "^14.2.6",
+        "tsdown": "^0.22.0",
+        "tsx": "^4.22.3",
+        "typedoc": "^0.28.19",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.59.4"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "prepare": "husky",
+        "dev": "tsx src/dev.ts",
+        "git:commit": "czg",
+        "example": "f() { tsx src/examples/example-${1}.ts; }; f",
+        "test": "tsx src/tests/test1.ts",
+        "style:dry": "eslint .",
+        "style:apply": "eslint . --fix",
+        "build": "npx tsdown src/main.ts --format esm --dts --clean --minify --env.DEBUG_LOG=false --out-dir dist",
+        "build:en": "npx tsdown src/main.ts --format esm --dts --clean --minify --env.DEBUG_LOG=false --env.DEFAULT_LANGUAGE=en --out-dir dist",
+        "build:it": "npx tsdown src/main.ts --format esm --dts --clean --minify --env.DEBUG_LOG=false --env.DEFAULT_LANGUAGE=it --out-dir dist",
+        "build:test": "npm pack --dry-run",
+        "pack": "npm run build && npm pack",
+        "publish:dry": "npm run build && npm publish --dry-run",
+        "docs:generate": "typedoc",
+        "docs:serve": "serve docs -l 8080"
+    },
+    "lint-staged": {
+        "**/*.{ts,json}": [
+            "eslint --fix"
+        ]
+    },
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
+    "volta": {
+        "node": "22.22.2"
+    }
+}

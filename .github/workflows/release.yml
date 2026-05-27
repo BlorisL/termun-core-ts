@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      # Add more environments here, e.g.:
+      # - beta
+      # - alpha
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write  # Required for npm provenance (OIDC, no NPM_TOKEN needed)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    container: debian:latest
+
+    steps:
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y git curl ca-certificates gnupg lsb-release
+
+      - name: Install Node.js
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+          apt-get install -y nodejs
+
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git in container
+        run: |
+          git config --global --add safe.directory '/__w/core-ts/core-ts'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Verify installation
+        run: |
+          git --version
+          node --version
+          npm --version
+          git status
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Verify semantic-release is installed
+        run: |
+          ls -la node_modules/@semantic-release/
+          npx semantic-release --version
+
+      - name: Build
+        run: npm run build
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Publish to npm via OIDC provenance — no NPM_TOKEN needed.
+          # Requirement: enable "Trusted Publishing" for this repo on npmjs.com
+          # (Account → Package → Settings → Publish granular access token / OIDC)
+          NPM_CONFIG_PROVENANCE: 'true'
+        run: npx semantic-release

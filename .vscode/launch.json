@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug con tsx",
+            "type": "node",
+            "request": "launch",
+            "program": "${file}", // Debug the file actually opened
+            "runtimeExecutable": "npx",
+            "runtimeArgs": ["tsx"],
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+        }
+    ]
+}
