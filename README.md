@@ -610,7 +610,7 @@ Full HTML documentation is generated automatically from JSDoc comments using **T
 
 ```bash
 npm run docs:generate   # generates ./docs/
-npm run docs:serve      # serves at http://localhost:8080 (opens browser)
+npm run docs:serve      # serves at http://localhost:8080
 ```
 
 Documentation covers all public and protected classes, methods, types and overloads, organised by module:

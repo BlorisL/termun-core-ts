@@ -1,7 +1,7 @@
 version: 2
 
 updates:
-  # Aggiornamenti dipendenze npm
+  # Npm dependecies updates
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -14,7 +14,15 @@ updates:
       dependencies:
         dependency-type: "production"
 
-  # Aggiornamenti GitHub Actions
+  # Release tooling updates, kept out of the main dependency tree
+  - package-ecosystem: "npm"
+    directory: "/.github/release-tools"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+
+  # GitHub Actions updates
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
