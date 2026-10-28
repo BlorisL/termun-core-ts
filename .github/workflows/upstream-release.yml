@@ -1,0 +1,28 @@
+# Closes the issues whose pull request to termun/core-ts has been merged and released (.github/scripts/
+# upstream-release.sh), and notifies the project that asked. No agent here: only gh, so a run costs seconds.
+name: Upstream release
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-release
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Close the released issues
+        run: bash .github/scripts/upstream-release.sh

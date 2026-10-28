@@ -18,3 +18,11 @@ This project uses AI-assisted development. All coding guidelines are stored in `
 - **Copilot**: reads `.github/copilot-instructions.md` (thin wrapper pointing to `.skills/`)
 - **Cursor**: can use `.cursorrules` (if configured) or read `.skills/` directly
 - **Claude / other AI**: read the relevant `.skills/<language>/` files directly
+
+## Issue agent
+
+This fork (`BlorisL/termun-core-ts`) holds the issues of the projects that use `@termun/core`. Every opened issue and
+every new comment by a maintainer starts a Claude agent (`.github/workflows/issue-agent.yml`) that analyses the
+request, implements it until the checks pass and opens a pull request to `termun/core-ts`;
+`.github/workflows/upstream-release.yml` closes the issue once termun has released it. The procedure is
+`.claude/skills/handle-issue/SKILL.md`.
