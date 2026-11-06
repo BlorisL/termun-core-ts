@@ -5,7 +5,7 @@ description: What applies in the BlorisL/termun-core-ts fork to the issue agent 
 
 # A core-ts issue, from analysis to the upstream pull request
 
-This skill adds to the shared `issue-agent` skill (copied on the runner to `.agent-standard/skills/issue-agent/`)
+This skill adds to the shared `issue-agent` skill (copied on the runner to `$RUNNER_TEMP/agent-standard/skills/issue-agent/`)
 what applies only here. The coding rules are in `.skills/typescript/` (read them before writing code) and are
 enforced by `eslint.config.mjs`.
 

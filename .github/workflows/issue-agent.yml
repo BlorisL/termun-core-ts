@@ -57,7 +57,8 @@ jobs:
               echo "stop=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # The shared skills (plugin standard) are not installed on the runner: the agent reads them from here.
+      # The shared skills (plugin standard) are not installed on the runner: the agent reads a copy, moved out of the
+      # checkout so that the repo's lint and formatting never check it.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: steps.limit.outputs.stop != 'true'
         with:
@@ -68,7 +69,7 @@ jobs:
       - name: Setup
         if: steps.limit.outputs.stop != 'true'
         run: |
-          echo ".agent-standard/" >> .git/info/exclude
+          mv .agent-standard "$RUNNER_TEMP/agent-standard"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote add upstream https://github.com/termun/core-ts.git
@@ -97,12 +98,13 @@ jobs:
           bot_id: "41898282"
           claude_args: >-
             --max-turns 250
+            --add-dir ${{ runner.temp }}/agent-standard
             --allowedTools "Bash,Read,Write,Edit,MultiEdit,Glob,Grep,WebFetch,TodoWrite"
           prompt: |
             You are the issue agent of ${{ github.repository }}. Event: ${{ github.event_name }} on issue #${{ github.event.issue.number }}.
 
             First read and follow:
-            - .agent-standard/skills/issue-agent/SKILL.md (what the agent does, step by step; it is in Italian)
+            - ${{ runner.temp }}/agent-standard/skills/issue-agent/SKILL.md (what the agent does, step by step; it is in Italian)
             - .claude/skills/handle-issue/SKILL.md (how this repo is verified and released)
             - SKILLS.md and the files in .skills/typescript/
 
