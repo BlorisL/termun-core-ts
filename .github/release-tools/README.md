@@ -11,7 +11,7 @@ advisories:
 | Package | Bundled in `npm` 11.21.2 | Advisory | Fixed in |
 | --- | --- | --- | --- |
 | `glob` | 13.0.6 | AbortSignal cancellation bypass (moderate) | 14.0.2 |
-| `minimatch` | 10.x | denial of service via globparts amplification (moderate) | 11.0.1 |
+| `minimatch` | 10.2.5 | denial of service via globparts amplification (moderate) | 11.0.1 |
 
 There is no way to fix them in place:
 
