@@ -10,6 +10,8 @@ permissions:
 
 jobs:
   generate:
+    # Only the original repository publishes the docs to GitHub Pages; a fork has no Pages site.
+    if: github.repository == 'termun/core-ts'
     name: Generate Documentation
     runs-on: ubuntu-latest
     container: debian:latest
@@ -42,7 +44,7 @@ jobs:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: generate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.repository == 'termun/core-ts' && github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       pages: write
       id-token: write
