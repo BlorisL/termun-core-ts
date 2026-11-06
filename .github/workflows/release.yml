@@ -16,6 +16,9 @@ permissions:
 
 jobs:
   release:
+    # Only the original repository publishes @termun/core: in a fork (BlorisL/termun-core-ts) this job would try to
+    # release from the wrong place, so it is skipped.
+    if: github.repository == 'termun/core-ts'
     runs-on: ubuntu-latest
     container: debian:latest
 
